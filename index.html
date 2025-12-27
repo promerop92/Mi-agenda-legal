@@ -452,7 +452,6 @@
 
         async function loadAll() {
             try {
-                const resp = await gapi.client.calendar.events.list({
                     calendarId: 'primary', 
                     timeMin: new Date(2024,0,1).toISOString(), 
                     singleEvents: true,
@@ -695,3 +694,5 @@
     </script>
 </body>
 </html>
+                const resp = await gapi.client.calendar.events.list({
+
