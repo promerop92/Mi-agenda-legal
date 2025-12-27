@@ -3,23 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEXDRIVE - Workspace Legal</title>
+    <title>LEXMODERN - Workspace Legal Drive-Native</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        :root { --primary: #0f172a; --accent: #b45309; --workspace-bg: #f8fafc; }
-        body { background-color: var(--workspace-bg); font-family: 'Plus Jakarta Sans', sans-serif; color: var(--primary); padding-bottom: 7rem; }
-        .workspace-section { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; border-radius: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background-color: #e2e8f0; border-radius: 1.5rem; overflow: hidden; }
-        .calendar-day { background: white; min-height: 100px; padding: 10px; transition: all 0.2s; }
-        .calendar-day.today { background: #fff7ed; }
+        
+        :root { 
+            --primary: #0f172a; 
+            --accent: #b45309; 
+            --workspace-bg: #f8fafc;
+        }
+
+        body { 
+            background-color: var(--workspace-bg); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            color: var(--primary); 
+            padding-bottom: 7rem;
+            background-image: radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.05) 0, transparent 50%), 
+                              radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.05) 0, transparent 50%);
+        }
+
+        .workspace-section {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 1);
+            border-radius: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #e2e8f0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .calendar-day {
+            background: white;
+            min-height: 100px;
+            padding: 10px;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover { background: #fffbeb; }
+        .calendar-day.today { background: #fff7ed; border: 1px inset #fde68a; }
         .calendar-day.other-month { background: #f8fafc; color: #cbd5e1; }
-        .glass-header { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        .btn-gold { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; box-shadow: 0 4px 15px -3px rgba(180, 83, 9, 0.3); }
-        .input-legal { width: 100%; padding: 0.85rem 1.25rem; background: #f1f5f9; border-radius: 1rem; border: 1px solid transparent; outline: none; }
-        .status-badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 800; text-transform: uppercase; }
-        .disabled-section { opacity: 0.3; pointer-events: none; filter: grayscale(1); }
+
+        .glass-header { 
+            background: rgba(15, 23, 42, 0.95); 
+            backdrop-filter: blur(15px); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+
+        .btn-gold { 
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%); 
+            color: white; 
+            box-shadow: 0 4px 15px -3px rgba(180, 83, 9, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-gold:active { transform: scale(0.95); }
+
+        .input-legal { 
+            width: 100%; padding: 0.85rem 1.25rem; background: #f1f5f9; border-radius: 1rem; 
+            border: 1px solid transparent; outline: none; transition: all 0.2s; font-size: 0.9rem;
+        }
+
+        .input-legal:focus { 
+            background: #fff; border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1); 
+        }
+
+        .input-legal:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #e2e8f0;
+        }
+
+        label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            color: #475569;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .status-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .disabled-section {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body>
@@ -33,9 +121,11 @@
                 <h1 class="font-extrabold text-xl tracking-tighter">LEX<span class="text-amber-500 font-light">DRIVE</span></h1>
             </div>
             <div id="auth-controls" class="flex items-center gap-3">
-                <span id="sync-status" class="hidden text-[10px] font-bold text-amber-500 bg-amber-50/10 px-3 py-1 rounded-full border border-amber-500/20">Sincronizado</span>
-                <button id="authorize_button" class="bg-white/10 text-[10px] px-5 py-2.5 rounded-full font-bold uppercase border border-white/20 hover:bg-white/20 flex items-center gap-2">
-                    <i data-lucide="lock" class="w-3 h-3 text-amber-400"></i> Autorizar Google
+                <span id="sync-status" class="hidden text-[10px] font-bold text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                    Sincronizado con Drive
+                </span>
+                <button id="authorize_button" class="bg-white/10 text-[10px] px-5 py-2.5 rounded-full font-bold uppercase border border-white/20 hover:bg-white/20 transition-all flex items-center gap-2">
+                    <i data-lucide="lock" class="w-3 h-3 text-amber-400"></i> Autorizar Google Workspace
                 </button>
             </div>
         </div>
@@ -45,80 +135,288 @@
         <div id="tab-agenda" class="tab-content workspace-section p-6 md:p-10 space-y-8">
             <div class="flex flex-col md:flex-row justify-between items-end gap-6">
                 <div>
-                    <p class="text-[11px] font-black text-amber-600 uppercase tracking-widest mb-1">Centro de Control</p>
-                    <h2 id="calendar-month-year" class="text-4xl font-extrabold text-slate-900 capitalize">Enero 2025</h2>
+                    <p class="text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] mb-1">Centro de Control de Procesos</p>
+                    <h2 id="calendar-month-year" class="text-4xl font-extrabold text-slate-900 capitalize tracking-tight">Enero 2025</h2>
                 </div>
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4 no-print">
                     <div class="flex bg-slate-200/50 p-1.5 rounded-2xl">
-                        <button onclick="changeMonth(-1)" class="p-2.5 hover:bg-white rounded-xl shadow-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
-                        <button onclick="changeMonth(1)" class="p-2.5 hover:bg-white rounded-xl shadow-sm"><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                        <button onclick="changeMonth(-1)" class="p-2.5 hover:bg-white rounded-xl transition-all shadow-sm"><i data-lucide="arrow-left" class="w-4 h-4 text-slate-700"></i></button>
+                        <button onclick="changeMonth(1)" class="p-2.5 hover:bg-white rounded-xl transition-all shadow-sm"><i data-lucide="arrow-right" class="w-4 h-4 text-slate-700"></i></button>
                     </div>
-                    <button onclick="openModal('modal-evento')" class="btn-gold px-8 py-4 rounded-2xl flex items-center gap-3 font-bold text-sm shadow-xl">
-                        <i data-lucide="calendar-plus" class="w-5 h-5"></i> Agendar
+                    <button id="btn-open-modal-event" onclick="openModal('modal-evento')" class="btn-gold px-8 py-4 rounded-2xl flex items-center gap-3 font-bold text-sm shadow-xl">
+                        <i data-lucide="calendar-plus" class="w-5 h-5"></i> Agendar Actuación
                     </button>
                 </div>
             </div>
+
+            <div class="grid grid-cols-7 gap-1 text-center">
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">Lun</div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">Mar</div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">Mié</div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">Jue</div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">Vie</div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">Sáb</div>
+                <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest py-2">Dom</div>
+            </div>
+
             <div id="calendar-body" class="calendar-grid bg-slate-100"></div>
-            
-            <div class="pt-8 border-t border-slate-200">
-                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">Próximas Audiencias</h3>
-                <div id="agenda-list" class="grid grid-cols-1 gap-4"></div>
+
+            <div class="pt-8 border-t border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="md:col-span-2">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <i data-lucide="clock" class="w-4 h-4"></i> Próximos Vencimientos y Audiencias
+                    </h3>
+                    <div id="agenda-list" class="grid grid-cols-1 gap-4"></div>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">Resumen del Mes</h3>
+                    <div class="bg-slate-900 rounded-[2rem] p-6 text-white shadow-xl space-y-4">
+                        <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                            <span class="text-[10px] uppercase font-bold text-slate-400">Total Casos Activos</span>
+                            <span id="stat-cases" class="text-2xl font-black text-amber-500">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] uppercase font-bold text-slate-400">Audiencias Programadas</span>
+                            <span id="stat-events" class="text-2xl font-black text-amber-500">0</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div id="tab-database" class="tab-content hidden workspace-section p-6 md:p-10 space-y-8">
-            <div class="flex justify-between items-center">
-                <h2 class="text-4xl font-extrabold text-slate-900">Expedientes</h2>
-                <button onclick="openModal('modal-expediente')" class="btn-gold px-8 py-4 rounded-2xl font-bold flex items-center gap-2">
-                    <i data-lucide="file-plus" class="w-5 h-5"></i> Nuevo Registro
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <p class="text-[11px] font-black text-amber-600 uppercase tracking-[0.2em] mb-1">Base de Datos en Google Drive</p>
+                    <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">Expedientes Digitales</h2>
+                </div>
+                <button onclick="openModal('modal-expediente')" class="btn-gold px-8 py-4 rounded-2xl flex items-center gap-3 font-bold text-sm shadow-xl">
+                    <i data-lucide="file-plus-2" class="w-5 h-5"></i> Crear Nuevo Registro
                 </button>
             </div>
+            
+            <div class="relative group">
+                <i data-lucide="search" class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-amber-500 transition-colors"></i>
+                <input type="text" id="db-search" onkeyup="renderAll()" placeholder="Filtrar por nombre, expediente o materia legal..." class="w-full pl-16 pr-8 py-5 rounded-[1.5rem] border-none shadow-sm focus:ring-4 focus:ring-amber-500/10 bg-white text-lg font-medium outline-none transition-all">
+            </div>
+
             <div id="db-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div id="tab-finanzas" class="tab-content hidden workspace-section p-6 md:p-10">
+             <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">Finanzas</h2>
+             </div>
+             <div id="finance-list" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </div>
     </main>
 
-    <nav class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-md">
-        <div class="bg-slate-900/95 backdrop-blur-3xl rounded-full p-2 shadow-2xl flex justify-around items-center">
-            <button onclick="switchTab('agenda')" id="nav-agenda" class="p-4 text-amber-500"><i data-lucide="layout-grid"></i></button>
-            <button onclick="switchTab('database')" id="nav-database" class="p-4 text-slate-500"><i data-lucide="folder-kanban"></i></button>
+    <nav class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-xl no-print">
+        <div class="bg-slate-900/95 backdrop-blur-3xl rounded-[3rem] p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 flex justify-between items-center px-4">
+            <button onclick="switchTab('agenda')" id="nav-agenda" class="flex-1 py-4 flex flex-col items-center gap-1.5 text-amber-500 transition-all">
+                <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                <span class="text-[9px] font-black uppercase tracking-widest">Dashboard</span>
+            </button>
+            <button onclick="switchTab('database')" id="nav-database" class="flex-1 py-4 flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-all">
+                <i data-lucide="folder-kanban" class="w-6 h-6"></i>
+                <span class="text-[9px] font-black uppercase tracking-widest">Expedientes</span>
+            </button>
+            <button onclick="switchTab('finanzas')" id="nav-finanzas" class="flex-1 py-4 flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-all">
+                <i data-lucide="banknote" class="w-6 h-6"></i>
+                <span class="text-[9px] font-black uppercase tracking-widest">Cobros</span>
+            </button>
         </div>
     </nav>
 
     <div id="modal-expediente" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md hidden z-[1000] p-4 flex items-center justify-center">
-        <div class="bg-white rounded-[2rem] w-full max-w-lg overflow-hidden">
-            <div class="p-6 border-b flex justify-between items-center bg-slate-50">
-                <h3 class="font-black text-xl">Nuevo Expediente</h3>
-                <button onclick="closeModal('modal-expediente')"><i data-lucide="x"></i></button>
+        <div class="bg-white rounded-[2.5rem] w-full max-w-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
+            <div class="p-8 border-b bg-slate-50 flex justify-between items-center">
+                <div>
+                    <h3 class="font-black text-2xl text-slate-900">Ficha Legal</h3>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gestión de Procesos en Drive</p>
+                </div>
+                <button onclick="closeModal('modal-expediente')" class="w-10 h-10 bg-slate-200 hover:bg-slate-300 rounded-full flex items-center justify-center transition-colors"><i data-lucide="x" class="w-5 h-5 text-slate-600"></i></button>
             </div>
-            <div class="p-6 space-y-4">
-                <div><label>Materia</label><select id="db-materia" onchange="updateMateriaForm()" class="input-legal"><option value="Civil">Civil</option><option value="Penal">Penal</option><option value="Familia">Familia</option></select></div>
-                <div id="form-body-container" class="space-y-4">
-                    <div><label>ID Expediente</label><input type="text" id="db-exp-id" placeholder="2025-001" class="input-legal"></div>
-                    <div><label>Cliente</label><input type="text" id="db-cliente" placeholder="Nombre completo" class="input-legal"></div>
-                    <div><label>Estado</label><select id="db-status" class="input-legal"><option value="activo">Activo</option><option value="sentencia">Sentencia</option></select></div>
+            
+            <div class="p-8 space-y-6 max-h-[75vh] overflow-y-auto custom-scrollbar">
+                
+                <div>
+                    <label>Materia Legal</label>
+                    <select id="db-materia" onchange="updateMateriaForm()" class="input-legal font-bold text-amber-700 border-2 border-amber-300 ring-4 ring-amber-500/10">
+                        <option value="">Seleccione especialidad...</option>
+                        <option value="Civil">Derecho Civil</option>
+                        <option value="Familia">Derecho de Familia</option>
+                        <option value="Penal">Derecho Penal</option>
+                        <option value="Laboral">Derecho Laboral</option>
+                        <option value="Mercantil">Mercantil / Corporativo</option>
+                        <option value="Conciliacion">Conciliación / Arbitraje</option>
+                        <option value="Violencia">Violencia Doméstica</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+
+                <div id="form-body-container" class="disabled-section space-y-6 transition-all duration-500">
+                    <div class="p-6 bg-amber-50 border-2 border-amber-200 rounded-[2rem] space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="landmark" class="w-5 h-5 text-amber-700"></i>
+                                <h4 class="text-xs font-black text-amber-700 uppercase tracking-widest">Control de Recursos y Alzada</h4>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <label class="mb-0 text-amber-900 font-bold text-[10px]">Demanda Recurrida</label>
+                                <input type="checkbox" id="db-is-recurso" onchange="toggleRecursoView()" class="w-6 h-6 accent-amber-600 cursor-pointer">
+                            </div>
+                        </div>
+
+                        <div id="recurso-panel" class="hidden animate-in fade-in slide-in-from-top-2 duration-300 space-y-4 pt-4 border-t border-amber-200">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label>Expediente Anterior (Base)</label>
+                                    <input type="text" id="db-exp-anterior" placeholder="Radicado de origen" class="input-legal bg-white">
+                                </div>
+                                <div class="space-y-1">
+                                    <label>Jurisdicción de Alzada</label>
+                                    <input type="text" id="db-recurso-juris" placeholder="Corte/Sala/Tribunal" class="input-legal bg-white border-amber-300">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label>Tipo de Recurso</label>
+                                    <select id="db-recurso-tipo" class="input-legal bg-white">
+                                        <option value="Apelacion">Apelación</option>
+                                        <option value="Casacion">Casación</option>
+                                        <option value="Amparo">Amparo</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label>Calidad en Recurso</label>
+                                    <select id="db-recurso-calidad" class="input-legal bg-white">
+                                        <option value="Recurrente">Parte Recurrente</option>
+                                        <option value="Recurrida">Parte Recurrida</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="finance-recurso-section" class="bg-amber-100 p-6 rounded-2xl space-y-4 border border-amber-300">
+                                <h4 class="text-[10px] font-black text-amber-800 uppercase tracking-widest border-b border-amber-200 pb-2">Tasación de Recurso</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-amber-800">Modalidad Pago Recurso</label>
+                                        <select id="db-fee-type-recurso" class="input-legal bg-white">
+                                            <option value="fijo">Gasto Fijo Recurso</option>
+                                            <option value="porcentaje">Porcentaje Recurso</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="text-amber-800">Monto Acordado Recurso ($)</label>
+                                        <input type="number" id="db-total-recurso" placeholder="0.00" class="input-legal bg-white font-bold text-amber-700">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="main-form-section" class="space-y-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="db-field-container">
+                                <label>ID Expediente (Base)</label>
+                                <input type="text" id="db-exp-id" placeholder="Ex: 2025-001" class="input-legal font-bold">
+                            </div>
+                            <div>
+                                <label>Estado Actual</label>
+                                <select id="db-status" class="input-legal font-bold">
+                                    <option value="activo">🟢 Proceso Activo</option>
+                                    <option value="urgente">🟡 Reclamo Urgente</option>
+                                    <option value="sentencia">🔵 En Sentencia</option>
+                                    <option value="archivado">⚪ Archivado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="db-field-container">
+                                <label>Jurisdicción / Tribunal</label>
+                                <input type="text" id="db-jurisdiccion" placeholder="Juzgado o sede judicial..." class="input-legal">
+                            </div>
+                            <div>
+                                <label>Calidad del Cliente</label>
+                                <select id="db-rol" class="input-legal">
+                                    <option value="Demandante">Demandante</option>
+                                    <option value="Demandado">Demandado</option>
+                                    <option value="Cliente">Cliente</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="col-span-2 md:col-span-1">
+                                <label>Nombre del Cliente</label>
+                                <input type="text" id="db-cliente" placeholder="Nombre completo" class="input-legal">
+                            </div>
+                            <div class="col-span-2 md:col-span-1">
+                                <label>Nombre de la Contraparte</label>
+                                <input type="text" id="v-contra" placeholder="Nombre opuesto" class="input-legal">
+                            </div>
+                        </div>
+
+                        <div id="dynamic-db-fields" class="p-6 bg-slate-100 rounded-[1.5rem] border border-slate-200 shadow-inner space-y-4">
+                            <div class="grid grid-cols-1 gap-4">
+                                <div class="space-y-1">
+                                    <label>Tipo de Proceso / Detalle</label>
+                                    <input type="text" id="v-tipo" placeholder="Ej: Divorcio, Cobro, etc." class="input-legal bg-white">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label>Observaciones Generales</label>
+                            <textarea id="db-observaciones" placeholder="Detalles adicionales del expediente..." class="input-legal h-24 resize-none"></textarea>
+                        </div>
+
+                        <div id="finance-section" class="bg-slate-900 p-8 rounded-[2rem] text-white space-y-4 transition-all">
+                            <h4 id="label-honorarios-header" class="text-xs font-black text-amber-500 uppercase tracking-widest text-center border-b border-white/10 pb-4">Acuerdo de Honorarios Principal</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-slate-400">Modalidad de Pago</label>
+                                    <select id="db-fee-type" onchange="toggleFeeInput()" class="w-full bg-slate-800 p-4 rounded-xl border-none outline-none font-bold text-sm">
+                                        <option value="fijo">Honorario Fijo</option>
+                                        <option value="litis">Cuota Litis (%)</option>
+                                        <option value="mensual">Iguala Mensual</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label id="label-monto" class="text-slate-400">Monto Acordado ($)</label>
+                                    <input type="number" id="db-total" placeholder="0.00" class="w-full bg-slate-800 p-4 rounded-xl border-none outline-none text-xl font-black text-amber-400">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="p-6 bg-slate-50">
-                <button onclick="saveExpediente()" class="w-full py-4 btn-gold rounded-xl font-black uppercase text-xs tracking-widest flex items-center justify-center gap-2">
-                    <i data-lucide="cloud-upload" class="w-5 h-5"></i> Guardar en Google
+
+            <div class="p-8 border-t bg-slate-50 flex gap-4">
+                <button onclick="saveExpediente()" class="flex-1 py-5 btn-gold rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3">
+                    <i data-lucide="cloud-upload" class="w-5 h-5"></i> Guardar y Sincronizar Drive
                 </button>
             </div>
         </div>
     </div>
 
     <div id="modal-evento" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md hidden z-[1000] p-4 flex items-center justify-center">
-        <div class="bg-white rounded-[2rem] w-full max-w-md overflow-hidden">
-            <div class="p-6 border-b flex justify-between items-center">
-                <h3 class="font-black text-xl">Agendar Audiencia</h3>
-                <button onclick="closeModal('modal-evento')"><i data-lucide="x"></i></button>
+        <div class="bg-white rounded-[2.5rem] w-full max-w-md overflow-hidden shadow-2xl">
+             <div class="p-8 border-b flex justify-between items-center">
+                <h3 class="font-black text-xl">Nueva Actuación</h3>
+                <button onclick="closeModal('modal-evento')" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center"><i data-lucide="x"></i></button>
             </div>
-            <div class="p-6 space-y-4">
-                <div><label>Expediente</label><select id="ev-exp-link" class="input-legal"></select></div>
-                <div><label>Diligencia</label><input type="text" id="ev-title" placeholder="Audiencia Inicial" class="input-legal"></div>
-                <div><label>Fecha/Hora</label><input type="datetime-local" id="ev-date" class="input-legal"></div>
+            <div class="p-8 space-y-4">
+                <div class="space-y-1"><label>Expediente Vinculado</label><select id="ev-exp-link" class="input-legal font-bold"></select></div>
+                <div class="space-y-1"><label>Descripción de la Diligencia</label><input type="text" id="ev-title" placeholder="Ej: Audiencia Inicial" class="input-legal"></div>
+                <div class="space-y-1"><label>Fecha y Hora</label><input type="datetime-local" id="ev-date" class="input-legal font-bold"></div>
             </div>
-            <div class="p-6">
-                <button onclick="saveEvent()" class="w-full py-4 btn-gold rounded-xl font-black uppercase text-xs">Registrar Actuación</button>
+            <div class="p-8 bg-slate-50">
+                <button onclick="saveEvent()" class="w-full py-5 btn-gold rounded-2xl font-black text-sm uppercase flex items-center justify-center gap-2">
+                    <i data-lucide="bell-ring" class="w-5 h-5"></i> Registrar Actuación
+                </button>
             </div>
         </div>
     </div>
@@ -129,10 +427,13 @@
     <script>
         const API_KEY = 'AIzaSyBxqIkqNMD8UBUWSUGEzE0Qayy0FkN9qXA'; 
         const CLIENT_ID = '578701751817-r17avg61fn4qlkv8te98biqiohf4am18.apps.googleusercontent.com';
-        const DISCOVERY_DOCS = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
-        const SCOPES = 'https://www.googleapis.com/auth/calendar.events';
+        const DISCOVERY_DOCS = [
+            'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+            'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'
+        ];
+        const SCOPES = 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/drive.file';
 
-        let tokenClient, allEvents = [];
+        let tokenClient, allEvents = [], folderId = null;
         let currentMonth = new Date();
 
         function gapiLoaded() { gapi.load('client', async () => { await gapi.client.init({apiKey: API_KEY, discoveryDocs: DISCOVERY_DOCS}); }); }
@@ -150,87 +451,246 @@
         };
 
         async function loadAll() {
-            const resp = await gapi.client.calendar.events.list({calendarId: 'primary', timeMin: (new Date(2024,0,1)).toISOString(), singleEvents: true});
-            allEvents = resp.result.items || [];
-            renderAll();
+            try {
+                const resp = await gapi.client.calendar.events.list({
+                    calendarId: 'primary', 
+                    timeMin: new Date(2024,0,1).toISOString(), 
+                    singleEvents: true,
+                    orderBy: 'startTime'
+                });
+                allEvents = resp.result.items || [];
+                renderAll();
+            } catch (e) { console.error("Error G-Services", e); }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.replace('text-amber-500', 'text-slate-500'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`nav-${tabId}`).classList.replace('text-slate-500', 'text-amber-500');
+            lucide.createIcons();
+        }
+
+        function changeMonth(dir) {
+            currentMonth.setMonth(currentMonth.getMonth() + dir);
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const body = document.getElementById('calendar-body');
+            const header = document.getElementById('calendar-month-year');
+            body.innerHTML = '';
+            
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            header.innerText = currentMonth.toLocaleDateString('es', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+            const prevLastDate = new Date(year, month, 0).getDate();
+            const startDay = firstDay === 0 ? 6 : firstDay - 1;
+
+            for(let i = startDay; i > 0; i--) {
+                const day = document.createElement('div');
+                day.className = "calendar-day other-month";
+                day.innerHTML = `<span class="text-[10px] font-bold">${prevLastDate - i + 1}</span>`;
+                body.appendChild(day);
+            }
+
+            const today = new Date();
+            for(let i = 1; i <= lastDate; i++) {
+                const day = document.createElement('div');
+                const isToday = today.getDate() === i && today.getMonth() === month && today.getFullYear() === year;
+                day.className = `calendar-day ${isToday ? 'today' : ''}`;
+                const dayDateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                const dayEvents = allEvents.filter(e => e.summary.includes('[CITA]') && e.start.dateTime.startsWith(dayDateStr));
+
+                let eventItems = '';
+                dayEvents.forEach(e => {
+                    eventItems += `<div class="text-[7px] font-bold bg-amber-500 text-white p-1 rounded mt-1 truncate">${e.summary.split('|')[1]}</div>`;
+                });
+
+                day.innerHTML = `<span class="text-xs font-black ${isToday ? 'text-amber-600' : 'text-slate-400'}">${i}</span>${eventItems}`;
+                body.appendChild(day);
+            }
+        }
+
+        function toggleRecursoView() {
+            const isRecurso = document.getElementById('db-is-recurso').checked;
+            const panel = document.getElementById('recurso-panel');
+            const expIdField = document.getElementById('db-exp-id');
+            const financeSection = document.getElementById('finance-section');
+            const headerHonorarios = document.getElementById('label-honorarios-header');
+
+            if (isRecurso) {
+                panel.classList.remove('hidden');
+                expIdField.disabled = true;
+                financeSection.style.opacity = "0.4";
+                financeSection.style.pointerEvents = "none";
+                headerHonorarios.innerText = "Acuerdo de Honorarios Principal (Bloqueado)";
+            } else {
+                panel.classList.add('hidden');
+                expIdField.disabled = false;
+                financeSection.style.opacity = "1";
+                financeSection.style.pointerEvents = "auto";
+                headerHonorarios.innerText = "Acuerdo de Honorarios Principal";
+            }
+            lucide.createIcons();
+        }
+
+        function updateMateriaForm() {
+            const m = document.getElementById('db-materia').value;
+            const rolSelect = document.getElementById('db-rol');
+            const formBody = document.getElementById('form-body-container');
+            
+            if (m === "") {
+                formBody.classList.add('disabled-section');
+                return;
+            } else {
+                formBody.classList.remove('disabled-section');
+            }
+
+            let roles = ['Cliente'];
+            if(['Civil', 'Familia', 'Laboral', 'Mercantil'].includes(m)) roles = ['Demandante', 'Demandado'];
+            if(m === 'Violencia') roles = ['Denunciante', 'Denunciado'];
+            if(m === 'Penal') roles = ['Víctima', 'Imputado'];
+            if(m === 'Conciliacion') roles = ['Solicitante', 'Invitado'];
+
+            rolSelect.innerHTML = roles.map(r => `<option value="${r}">${r}</option>`).join('');
+            lucide.createIcons();
         }
 
         async function saveExpediente() {
             const id = document.getElementById('db-exp-id').value;
             const cliente = document.getElementById('db-cliente').value;
-            if(!id || !cliente) { alert("Completa los datos"); return; }
+            const isRecurso = document.getElementById('db-is-recurso').checked;
+            
+            if(!cliente) return;
 
-            const meta = { id, cliente, mat: document.getElementById('db-materia').value, status: document.getElementById('db-status').value };
-            const entry = {
-                'summary': `[DB_MASTER] ${id} | ${cliente}`,
-                'description': `LEXDATA:${JSON.stringify(meta)}`,
-                'start': { 'date': '2000-01-01' }, 'end': { 'date': '2000-01-01' }
+            const meta = { 
+                id: isRecurso ? `REC-${Date.now()}` : id,
+                cliente, 
+                mat: document.getElementById('db-materia').value, 
+                rol: document.getElementById('db-rol').value,
+                status: document.getElementById('db-status').value,
+                jurisdiccion: document.getElementById('db-jurisdiccion').value,
+                isRecurso,
+                recurso: isRecurso ? { 
+                    expAnterior: document.getElementById('db-exp-anterior').value,
+                    juris: document.getElementById('db-recurso-juris').value,
+                    tipo: document.getElementById('db-recurso-tipo').value,
+                    feeType: document.getElementById('db-fee-type-recurso').value,
+                    feeTotal: document.getElementById('db-total-recurso').value
+                } : null,
+                tipoProceso: document.getElementById('v-tipo').value,
+                contraparte: document.getElementById('v-contra').value,
+                observaciones: document.getElementById('db-observaciones').value,
+                fee: { type: document.getElementById('db-fee-type').value, total: document.getElementById('db-total').value },
+                updated: new Date().toISOString()
             };
-            await gapi.client.calendar.events.insert({calendarId: 'primary', resource: entry});
-            alert("Guardado"); closeModal('modal-expediente'); loadAll();
+
+            const calendarEntry = {
+                'summary': `[DB_MASTER] ${meta.id} | ${cliente}`,
+                'description': `LEXDATA:${JSON.stringify(meta)}`,
+                'start': { 'date': '2000-01-01' }, 'end': { 'date': '2000-01-01' }, 'transparency': 'transparent'
+            };
+
+            try {
+                await gapi.client.calendar.events.insert({calendarId: 'primary', resource: calendarEntry});
+                closeModal('modal-expediente'); 
+                loadAll();
+            } catch (e) { console.error("Error Persistence", e); }
         }
 
         async function saveEvent() {
-            const expLink = JSON.parse(document.getElementById('ev-exp-link').value);
-            const entry = {
-                'summary': `[CITA] ${expLink.id} | ${document.getElementById('ev-title').value}`,
-                'start': { 'dateTime': new Date(document.getElementById('ev-date').value).toISOString() },
-                'end': { 'dateTime': new Date(new Date(document.getElementById('ev-date').value).getTime()+3600000).toISOString() }
+            const selectEl = document.getElementById('ev-exp-link');
+            if(!selectEl.value) return;
+            const expLink = JSON.parse(selectEl.value);
+            const title = document.getElementById('ev-title').value;
+            const date = document.getElementById('ev-date').value;
+            if(!date || !title) return;
+
+            const event = {
+                'summary': `[CITA] ${expLink.id} | ${title}`,
+                'description': `Relacionado con: ${expLink.cliente}`,
+                'start': { 'dateTime': new Date(date).toISOString() },
+                'end': { 'dateTime': new Date(new Date(date).getTime() + 3600000).toISOString() }
             };
-            await gapi.client.calendar.events.insert({calendarId: 'primary', resource: entry});
-            closeModal('modal-evento'); loadAll();
+
+            try {
+                await gapi.client.calendar.events.insert({calendarId: 'primary', resource: event});
+                closeModal('modal-evento');
+                loadAll();
+            } catch (e) { console.error("Error Event Save", e); }
         }
 
         function renderAll() {
             renderCalendar();
             const dbList = document.getElementById('db-list');
+            const agendaList = document.getElementById('agenda-list');
             const selectLink = document.getElementById('ev-exp-link');
-            dbList.innerHTML = ''; selectLink.innerHTML = '';
-            
-            const cases = allEvents.filter(e => e.summary.includes('[DB_MASTER]')).map(e => JSON.parse(e.description.replace('LEXDATA:', '')));
+            const query = document.getElementById('db-search').value.toLowerCase();
+            dbList.innerHTML = ''; agendaList.innerHTML = ''; selectLink.innerHTML = '';
+
+            const cases = allEvents.filter(e => e.summary.includes('[DB_MASTER]'))
+                             .map(e => JSON.parse(e.description.replace('LEXDATA:', '')))
+                             .filter(c => c.cliente.toLowerCase().includes(query) || c.id.toLowerCase().includes(query));
+
+            document.getElementById('stat-cases').innerText = cases.length;
+
             cases.forEach(c => {
                 const card = document.createElement('div');
-                card.className = "workspace-section p-6";
-                card.innerHTML = `<h4 class="font-bold">${c.cliente}</h4><p class="text-xs text-slate-400">ID: ${c.id}</p>`;
+                card.className = "bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all cursor-pointer";
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 ${c.isRecurso ? 'bg-amber-100 text-amber-700' : 'bg-slate-900 text-amber-500'} rounded-2xl flex items-center justify-center">
+                             <i data-lucide="${c.isRecurso ? 'landmark' : 'shield-check'}" class="w-6 h-6"></i>
+                        </div>
+                        <span class="status-badge ${c.status === 'activo' ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'}">${c.status}</span>
+                    </div>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">${c.mat}</p>
+                    <h4 class="font-extrabold text-slate-900 text-lg mb-1">${c.cliente}</h4>
+                    <p class="text-xs text-slate-500 font-bold">ID: ${c.id}</p>
+                    ${c.jurisdiccion ? `<p class="text-[10px] text-slate-600 font-medium mt-1 italic truncate">Sede: ${c.jurisdiccion}</p>` : ''}
+                    ${c.isRecurso ? `<p class="text-[9px] text-amber-600 font-bold mt-1 uppercase">Recurso: ${c.recurso.tipo}</p>` : ''}
+                `;
                 dbList.appendChild(card);
-                const opt = document.createElement('option'); opt.value = JSON.stringify(c); opt.innerText = c.cliente;
+                const opt = document.createElement('option');
+                opt.value = JSON.stringify(c);
+                opt.innerText = `${c.id} - ${c.cliente}`;
                 selectLink.appendChild(opt);
             });
 
-            const agenda = document.getElementById('agenda-list'); agenda.innerHTML = '';
-            allEvents.filter(e => e.summary.includes('[CITA]')).forEach(e => {
+            const citas = allEvents.filter(e => e.summary.includes('[CITA]'))
+                .sort((a,b) => new Date(a.start.dateTime) - new Date(b.start.dateTime))
+                .filter(e => new Date(e.start.dateTime) >= new Date());
+            document.getElementById('stat-events').innerText = citas.length;
+            citas.slice(0, 5).forEach(e => {
+                const date = new Date(e.start.dateTime);
                 const item = document.createElement('div');
-                item.className = "p-4 bg-white rounded-xl border border-slate-100 flex gap-4 items-center";
-                item.innerHTML = `<div class="bg-amber-100 p-2 rounded-lg text-amber-600 font-bold text-xs">${new Date(e.start.dateTime).getDate()}</div><div><p class="font-bold text-sm">${e.summary.replace('[CITA]','')}</p></div>`;
-                agenda.appendChild(item);
+                item.className = "flex items-center gap-6 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm";
+                item.innerHTML = `
+                    <div class="text-center min-w-[60px] border-r border-slate-100 pr-4">
+                        <span class="block text-2xl font-black text-slate-900 leading-none">${date.getDate()}</span>
+                        <span class="block text-[10px] uppercase font-bold text-amber-600">${date.toLocaleDateString('es',{month:'short'})}</span>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-800 text-sm mb-0.5">${e.summary.split('|')[1]}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Caso: ${e.summary.split('|')[0].replace('[CITA]','')}</p>
+                    </div>`;
+                agendaList.appendChild(item);
             });
             lucide.createIcons();
         }
 
-        function renderCalendar() {
-            const body = document.getElementById('calendar-body');
-            body.innerHTML = '';
-            const year = currentMonth.getFullYear();
-            const month = currentMonth.getMonth();
-            document.getElementById('calendar-month-year').innerText = currentMonth.toLocaleDateString('es', {month:'long', year:'numeric'});
-            
-            const lastDate = new Date(year, month + 1, 0).getDate();
-            for(let i=1; i<=lastDate; i++) {
-                const day = document.createElement('div');
-                day.className = "calendar-day border";
-                day.innerHTML = `<span class="text-xs font-bold">${i}</span>`;
-                body.appendChild(day);
-            }
+        function toggleFeeInput() {
+            const type = document.getElementById('db-fee-type').value;
+            document.getElementById('label-monto').innerText = type === 'litis' ? 'Cuota Litis (%)' : 'Monto Acordado ($)';
         }
 
-        function switchTab(t) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-            document.getElementById('tab-'+t).classList.remove('hidden');
-            lucide.createIcons();
-        }
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-        function changeMonth(d) { currentMonth.setMonth(currentMonth.getMonth()+d); renderCalendar(); }
+        function openModal(id) { document.getElementById(id).classList.replace('hidden', 'flex'); lucide.createIcons(); }
+        function closeModal(id) { document.getElementById(id).classList.replace('flex', 'hidden'); }
+
         lucide.createIcons();
     </script>
 </body>
