@@ -561,33 +561,41 @@
         }
 
         async function saveExpediente() {
-            const id = document.getElementById('db-exp-id').value;
-            const cliente = document.getElementById('db-cliente').value;
-            const isRecurso = document.getElementById('db-is-recurso').checked;
-            
-            if(!cliente) return;
+    const id = document.getElementById('db-exp-id').value;
+    const cliente = document.getElementById('db-cliente').value;
+    const materia = document.getElementById('db-materia').value;
 
-            const meta = { 
-                id: isRecurso ? `REC-${Date.now()}` : id,
-                cliente, 
-                mat: document.getElementById('db-materia').value, 
-                rol: document.getElementById('db-rol').value,
-                status: document.getElementById('db-status').value,
-                jurisdiccion: document.getElementById('db-jurisdiccion').value,
-                isRecurso,
-                recurso: isRecurso ? { 
-                    expAnterior: document.getElementById('db-exp-anterior').value,
-                    juris: document.getElementById('db-recurso-juris').value,
-                    tipo: document.getElementById('db-recurso-tipo').value,
-                    feeType: document.getElementById('db-fee-type-recurso').value,
-                    feeTotal: document.getElementById('db-total-recurso').value
-                } : null,
-                tipoProceso: document.getElementById('v-tipo').value,
-                contraparte: document.getElementById('v-contra').value,
-                observaciones: document.getElementById('db-observaciones').value,
-                fee: { type: document.getElementById('db-fee-type').value, total: document.getElementById('db-total').value },
-                updated: new Date().toISOString()
-            };
+    if (!id || !cliente) {
+        alert("⚠️ Por favor, llena el ID y el nombre del Cliente");
+        return;
+    }
+
+    const meta = {
+        id: id,
+        cliente: cliente,
+        materia: materia,
+        updated: new Date().toISOString()
+    };
+
+    const calendarEntry = {
+        'summary': `[DB_MASTER] ${id} | ${cliente}`,
+        'description': `LEXDATA:${JSON.stringify(meta)}`,
+        'start': { 'date': '2000-01-01' },
+        'end': { 'date': '2000-01-01' }
+    };
+
+    try {
+        await gapi.client.calendar.events.insert({
+            'calendarId': 'primary',
+            'resource': calendarEntry
+        });
+        alert("✅ ¡Guardado con éxito!");
+        location.reload(); 
+    } catch (e) {
+        console.error(e);
+        alert("❌ Error: " + (e.result?.error?.message || "No se pudo guardar"));
+    }
+};
 
             const calendarEntry = {
                 'summary': `[DB_MASTER] ${meta.id} | ${cliente}`,
